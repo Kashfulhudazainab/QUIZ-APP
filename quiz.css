@@ -55,3 +55,35 @@ body{
     75% { transform: translateX(-10px); }
     100% { transform: translateX(0); }
 }
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    #box {
+        width: 95%;
+        padding: 10px; /* Reduced padding for smaller screens */
+    }
+
+    #quesbox {
+        font-size: 1em; /* Adjust font size for smaller screens */
+    }
+
+    .row {
+        flex-direction: column; /* Stack radio buttons and labels vertically */
+        align-items: flex-start; /* Align items to the start for better spacing */
+    }
+
+    .row input[type="radio"] {
+        margin: 0 0 5px 0; /* Adjust margin for vertical alignment */
+    }
+
+    .btn {
+        padding: 10px; /* Padding adjustment for smaller screens */
+        font-size: 0.9em; /* Slightly smaller font size for smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .btn {
+        font-size: 0.8em; /* Further reduced font size for very small screens */
+    }
+}
