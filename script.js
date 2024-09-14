@@ -97,15 +97,18 @@ const questions=[
     }
 ]
 
-let index=0;
-const quesbox=document.getElementById('quesbox');
-const optioninputs=document.querySelectorAll('.options');
+
+let index = 0;
+const quesbox = document.getElementById('quesbox');
+const optioninputs = document.querySelectorAll('.options');
+const feedbackBox = document.getElementById('feedback'); // Add this line
 
 const loadQuestion = () => {
     if (index >= total) {
         return endQuiz();
     } else {
         reset();
+        feedbackBox.innerHTML = ''; // Clear feedback box when loading a new question
         const data = questions[index];
         quesbox.innerHTML = `${index + 1}. ${data.que}`;
         optioninputs[0].nextElementSibling.innerText = data.a;
@@ -113,27 +116,34 @@ const loadQuestion = () => {
         optioninputs[2].nextElementSibling.innerText = data.c;
         optioninputs[3].nextElementSibling.innerText = data.d;
     }
-}
+};
 
-
-let total=questions.length;
-let correct=0;
-let wrong=0;
+let total = questions.length;
+let correct = 0;
+let wrong = 0;
 
 const submitQuiz = () => {
     const ans = getAnswer();
-    if (ans === questions[index].correct) {
+    const correctAnswer = questions[index].correct;
+
+    if (ans === correctAnswer) {
         correct++;
+        feedbackBox.innerHTML = '<p style="color: green;">Correct Answer!</p>'; // Feedback for correct answer
     } else {
         wrong++;
+        const correctText = questions[index][correctAnswer];
+        feedbackBox.innerHTML = `<p style="color: red;">Wrong Answer! The correct answer is: ${correctText}</p>`; // Feedback for wrong answer
     }
+    
     index++;
-    if (index < total) {
-        loadQuestion();
-    } else {
-       endQuiz();
-    }
-}
+    setTimeout(() => {
+        if (index < total) {
+            loadQuestion();
+        } else {
+            endQuiz();
+        }
+    }, 2500); // Delay to show the feedback before loading the next question
+};
 
 const getAnswer = () => {
     let selectedAnswer;
@@ -143,20 +153,18 @@ const getAnswer = () => {
         }
     });
     return selectedAnswer;
-}
-
-
+};
 
 const reset = () => {
     optioninputs.forEach((input) => {
         input.checked = false;
     });
-}
+};
 
 const endQuiz = () => {
-document.getElementById('box').innerHTML=`<h3> Thank you for playing the Quiz </h3>
-<h2>${correct}/${total} are correct </h2>`
-}
+    document.getElementById('box').innerHTML = `<h3>Thank you for playing the Quiz</h3>
+    <h2>${correct}/${total} are correct</h2>`;
+};
 
-//initial call
+// Initial call
 loadQuestion();
